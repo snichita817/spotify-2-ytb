@@ -1,7 +1,7 @@
 # spotify-2-ytb
 This small Python script that facilitates the synchronization of Spotify playlists with YouTube Music playlists. The script uses the Spotify API to retrieve user playlists and songs, and the YouTube Music API to search for corresponding songs and create playlists with matching names and songs on YouTube Music.
 
-# Tutorial: How to Use the Script and Dependencies
+## Tutorial: How to Use and Setup the Script
 1. Python Environment Setup:
    * Ensure you have Python 3.x installed on your system. If not, download and install it from the official Python website.
 2. Installing Required Packages:
