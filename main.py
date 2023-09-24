@@ -4,6 +4,8 @@ import base64
 from dotenv import load_dotenv
 from requests import post, get
 from ytmusicapi import YTMusic
+from fuzzywuzzy import fuzz
+
 load_dotenv()
 
 client_id = os.getenv("CLIENT_ID")
@@ -68,14 +70,16 @@ def get_yt_song_id(yt_song_search_result, sp_song_name):
     yt_song_name = None
     for info in yt_song_search_result:
         yt_song_name = get_yt_song_artist_and_name(info)
+        
+        similarity_ratio = fuzz.ratio(yt_song_name.lower(), sp_song_name.lower())
+        
         print(yt_song_name)
-        if yt_song_name == sp_song_name:
+        if similarity_ratio > 70:
             return info['videoId']
         
 if __name__ == "__main__":      
     token = get_token()
-    # user_name = input("Enter your profile user: ")
-    user_name = "rasckey"
+    user_name = input("Enter your spotify ID: ")
     user_id = get_user_id(token, user_name)
 
     playlists = get_user_playlists(token, user_id)
@@ -94,17 +98,21 @@ if __name__ == "__main__":
         if songs_name != []:
             playlists_dict[playlist_name] = songs_name
 
-    ytmusic = YTMusic("./spt-2-ytb/oauth.json")
+    ytmusic = YTMusic("./oauth.json")
 
     for playlist_name, song_list in playlists_dict.items():
         playlist_id = ytmusic.create_playlist(playlist_name, playlist_name)
         yt_songs_ids = []
         for song in song_list:
-            print(song)
+            print("Searching for: ", song)
             yt_song_search_result = ytmusic.search(song, filter="songs")
             yt_song_id = get_yt_song_id(yt_song_search_result, song)
-            if yt_song_id is None:
+            if yt_song_id is None and yt_song_search_result:
                 yt_song_id = yt_song_search_result[0]['videoId']
-            yt_songs_ids.append(yt_song_id)
+            if yt_song_id:
+                yt_songs_ids.append(yt_song_id)
+                print("Found:", song)
+            else:
+                print("Song not found on YouTube:", song)
         print(yt_songs_ids)
         ytmusic.add_playlist_items(playlistId=playlist_id, videoIds=yt_songs_ids)
