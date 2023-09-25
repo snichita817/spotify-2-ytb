@@ -6,7 +6,7 @@ This small Python script that facilitates the synchronization of Spotify playlis
    * Ensure you have Python 3.x installed on your system. If not, download and install it from the official Python website.
 2. Installing Required Packages:
    * Run the following command to install the required Python packages using pip:  
-     ```pip install ytmusicapi requests python-dotenv```
+     ```pip install ytmusicapi requests python-dotenv fuzzywuzzy python-Levenshtein```
 3. Setting Up Environment Variables:
    * Create a `.env` file in the same directory as the script.
    * Define the following environment variables in the `.env` file:
@@ -17,4 +17,4 @@ This small Python script that facilitates the synchronization of Spotify playlis
 4. OAuth Configuration for YouTube Music:
    * Obtain the necessary OAuth credentials for YouTube Music API running ```ytmusicapi oauth``` command in the terminal. For more guidance refer to the [YTMusicAPI setup page.](https://ytmusicapi.readthedocs.io/en/stable/setup/index.html)
 
-5. Runn the script.
+5. Run the script.
